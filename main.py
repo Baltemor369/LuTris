@@ -4,9 +4,10 @@ from block import Block
 from const import *
 
 import pygame
+import random
 
 def draw(screen:pygame.Surface, shape:Block):
-    pygame.draw.rect(screen, shape.color, (shape.x*shape.w, shape.y*shape.h, shape.w-2, shape.h-2))
+    pygame.draw.rect(screen, shape.color, (shape.x*BLOCK_SIZE, shape.y*BLOCK_SIZE, BLOCK_SIZE-2, BLOCK_SIZE-2))
 
 def event_handler(game:Game):
     for event in pygame.event.get():
@@ -62,8 +63,10 @@ def update(game:Game):
         if game.is_empty_under():
             game.move_block_down()
         else:
+            print(game.board.moving_shape)
             # generate a new Shape as current moving shape
-            game.board.set_moving_shape(Shape([Block(i,0, BLUE) for i in range(2,6)]))
+            game.board.set_moving_shape(Shape([Block(i,0, CYAN) for i in range(2,6)]))
+            print(game.board.moving_shape)
         
     
     return True
@@ -75,19 +78,14 @@ def refresh_graphic(game:Game):
                 draw(screen, cell)
 
 pygame.init()
-
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-
 pygame.display.set_caption("LuTris")
 
 # init data
 game = Game()
 
 # TEST
-
-game.board.set_moving_shape(Shape([Block(5,0, BLUE)]))
-game.board.add_shape(Shape([Block(7,i, WHITE) for i in range(3,6)], 1))
-game.board.add_shape(Shape([Block(1,i, RED) for i in range(0,6)], 1))
+game.board.set_moving_shape(Shape([Block(i,-1, CYAN) for i in range(2,6)]))
 ###########
 
 while game.running:
@@ -98,6 +96,6 @@ while game.running:
     refresh_graphic(game)
 
     pygame.display.flip()
-    game.clock.tick(15)
+    game.clock.tick(10)
 
 pygame.quit()

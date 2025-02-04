@@ -3,10 +3,10 @@ from block import Block
 class Shape:
     def __init__(self, blocks:list[Block]=[], center:int=None):
         self.blocks:list[Block] = blocks
-        self.center = 0
-        if center is not None and 0 <= center < len(blocks):
-            self.center = center
+        self.center = center if center is not None and 0 <= center < len(blocks) else 0
             
+    def __str__(self):
+        return f"Shape({self.center})"
 
     def rotate(self, board, clockwise=True):
         if not self.blocks:

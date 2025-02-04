@@ -1,13 +1,14 @@
 from shape import Shape
 from block import Block
+from const import NB_COLS,NB_ROWS
 
 class Board:
     def __init__(self):
         self.matrix:list[list[Block]] = []
         # init the matrix
-        for i in range(20): # height
+        for i in range(NB_ROWS+2): # height
             _ = []
-            for j in range(10): # width
+            for j in range(NB_COLS+2): # width
                 _.append(None)
             self.matrix.append(_)
         # current moving shape

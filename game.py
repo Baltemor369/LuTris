@@ -13,13 +13,14 @@ class Game:
         self.move_down = False
         self.last_drop_time = datetime.now()
         self.drop_interval = timedelta(seconds=1)
+        self.speed = 0
     
     def should_drop(self):
         current_time = datetime.now()
         if current_time - self.last_drop_time > self.drop_interval:
             self.last_drop_time = current_time
             return True
-        return False
+        return False        
 
     def move_block_left(self):
         self.board.remove_shape(self.board.moving_shape)
@@ -85,6 +86,9 @@ class Game:
         self.board.remove_shape(self.board.moving_shape)
 
         for block in self.board.moving_shape.blocks:
+            if block.y == 19: # bottom side touch
+                check = False
+
             if self.board.get(block.x, block.y+1) != None: # detect smth under
                 check = False
 
