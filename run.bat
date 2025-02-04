@@ -1,3 +1,15 @@
-@REM @echo off
+@echo off
 
-py main.py
+cls
+IF NOT EXIST .env (
+    python -m venv .env
+    cd .env\Scripts
+    call activate
+    cd ../..
+    pip install -r 'requirements.txt'
+) ELSE (
+    cd .env\Scripts
+    call activate
+    cd ../..
+)
+python.exe main.py

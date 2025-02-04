@@ -1,4 +1,4 @@
-from board import Board
+from game import Game
 from shape import Shape
 from block import Block
 from const import *
@@ -8,7 +8,7 @@ import pygame
 def draw(screen:pygame.Surface, shape:Block):
     pygame.draw.rect(screen, shape.color, (shape.x*shape.w, shape.y*shape.h, shape.w-2, shape.h-2))
 
-def event_handler():
+def event_handler(game:Game):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False
@@ -17,34 +17,66 @@ def event_handler():
                 return False
 
             elif event.key == pygame.K_d:
-                board.remove_shape(board.moving_shape)
-                for block in board.moving_shape.blocks:
-                    if block.x < 9:
-                        block.move_right()
-                board.add_shape(board.moving_shape)
+                game.move_right = True
 
             elif event.key == pygame.K_q:
-                board.remove_shape(board.moving_shape)
-                for block in board.moving_shape.blocks:
-                    if block.x > 0:
-                        block.move_left()
-                board.add_shape(board.moving_shape)
+                game.move_left = True
 
             elif event.key == pygame.K_e:
                 # rotation right
-                pass
+                game.board.remove_shape(game.board.moving_shape)
+                game.board.moving_shape.rotate(game.board, clockwise=False)
+                game.board.add_shape(game.board.moving_shape)
             
             elif event.key == pygame.K_a:
                 # rotation left
-                pass
+                game.board.remove_shape(game.board.moving_shape)
+                game.board.moving_shape.rotate(game.board,clockwise=True)
+                game.board.add_shape(game.board.moving_shape)
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_d:
+                game.move_right = False
+
+            elif event.key == pygame.K_q:
+                game.move_left = False
+
+    return True
+
+def update(game:Game):
+    if game.move_left:
+        check_collision = False
+
+        for block in game.board.moving_shape.blocks:
+            if block.x == 0:
+                check_collision = True
+
+        if not check_collision:
+            game.board.remove_shape(game.board.moving_shape)
+
+            for block in game.board.moving_shape.blocks:
+                block.move_left()
+
+            game.board.add_shape(game.board.moving_shape)
+
+    elif game.move_right:
+        check_collision = False
+
+        for block in game.board.moving_shape.blocks:
+            if block.x == 9:
+                check_collision = True
+
+        if not check_collision:
+            game.board.remove_shape(game.board.moving_shape)
+
+            for block in game.board.moving_shape.blocks:
+                block.move_right()
+
+            game.board.add_shape(game.board.moving_shape)
     
     return True
 
-def update():
-    pass
-
-def flip():
-    for row in board.matrix:
+def refresh_graphic(game:Game):
+    for row in game.board.matrix:
         for cell in row:
             if type(cell) is Block:
                 draw(screen, cell)
@@ -56,25 +88,21 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("LuTris")
 
 # init data
-running  = True
-clock = pygame.time.Clock()
-board = Board()
+game = Game()
 
 # TEST
-board.moving_shape = Shape([Block(2,2, WHITE), Block(2,1, WHITE), Block(2,0, WHITE)])
-board.add_shape(board.moving_shape)
+game.board.moving_shape = Shape([Block(3,i, WHITE) for i in range(2,6)], 1)
+game.board.add_shape(game.board.moving_shape)
 ###########
 
-while running:
+while game.running:
     screen.fill(BLACK)
 
-    running = event_handler()
-    
-    update()
-    
-    flip()
+    game.running = event_handler(game)
+    game.running = game.running and update(game)
+    refresh_graphic(game)
 
     pygame.display.flip()
-    clock.tick(30)
+    game.clock.tick(15)
 
 pygame.quit()
