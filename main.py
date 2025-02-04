@@ -21,57 +21,50 @@ def event_handler(game:Game):
 
             elif event.key == pygame.K_q:
                 game.move_left = True
+            
+            elif event.key == pygame.K_s:
+                game.move_down = True
 
             elif event.key == pygame.K_e:
                 # rotation right
-                game.board.remove_shape(game.board.moving_shape)
-                game.board.moving_shape.rotate(game.board, clockwise=False)
-                game.board.add_shape(game.board.moving_shape)
+                game.rotate_right()
             
             elif event.key == pygame.K_a:
                 # rotation left
-                game.board.remove_shape(game.board.moving_shape)
-                game.board.moving_shape.rotate(game.board,clockwise=True)
-                game.board.add_shape(game.board.moving_shape)
+                game.rotate_left()
+
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_d:
                 game.move_right = False
 
             elif event.key == pygame.K_q:
                 game.move_left = False
+            
+            elif event.key == pygame.K_s:
+                game.move_down = False
 
     return True
 
 def update(game:Game):
     if game.move_left:
-        check_collision = False
-
-        for block in game.board.moving_shape.blocks:
-            if block.x == 0:
-                check_collision = True
-
-        if not check_collision:
-            game.board.remove_shape(game.board.moving_shape)
-
-            for block in game.board.moving_shape.blocks:
-                block.move_left()
-
-            game.board.add_shape(game.board.moving_shape)
+        if game.is_empty_left():
+            game.move_block_left()
 
     elif game.move_right:
-        check_collision = False
-
-        for block in game.board.moving_shape.blocks:
-            if block.x == 9:
-                check_collision = True
-
-        if not check_collision:
-            game.board.remove_shape(game.board.moving_shape)
-
-            for block in game.board.moving_shape.blocks:
-                block.move_right()
-
-            game.board.add_shape(game.board.moving_shape)
+        if game.is_empty_right():
+            game.move_block_right()
+    
+    if game.move_down:
+        if game.is_empty_under():
+            game.move_block_down()
+    
+    if game.should_drop():
+        if game.is_empty_under():
+            game.move_block_down()
+        else:
+            # generate a new Shape as current moving shape
+            game.board.set_moving_shape(Shape([Block(i,0, BLUE) for i in range(2,6)]))
+        
     
     return True
 
@@ -91,8 +84,10 @@ pygame.display.set_caption("LuTris")
 game = Game()
 
 # TEST
-game.board.moving_shape = Shape([Block(3,i, WHITE) for i in range(2,6)], 1)
-game.board.add_shape(game.board.moving_shape)
+
+game.board.set_moving_shape(Shape([Block(5,0, BLUE)]))
+game.board.add_shape(Shape([Block(7,i, WHITE) for i in range(3,6)], 1))
+game.board.add_shape(Shape([Block(1,i, RED) for i in range(0,6)], 1))
 ###########
 
 while game.running:

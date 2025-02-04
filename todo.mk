@@ -12,7 +12,7 @@
 [x] 10. rotate to right or left the chaine
 [x] 11. Keep pressing moving key, keep move the chaine
 [x] 11.2 adjust the game clock speed
-[] 12. verify down collision
+[x] 12. verify down collision
 [] 13. pressing down key, make fall faster the chaine
 [] 14. automatic fall for chaine (1 tile per 1/2second then faster)
 [] 15. verify full line and destroy it

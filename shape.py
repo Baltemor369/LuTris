@@ -27,7 +27,7 @@ class Shape:
         
         # Vérifier les nouvelles positions
         for x, y in new_positions:
-            if x < 0 or x >= 10 or y < 0 or y >= 20 or board.matrix[x][y] is not None:
+            if x < 0 or x >= 10 or y < 0 or y >= 20 or board.get(x,y) is not None:
                 return  # Annuler la rotation en cas de collision
             
         # Mettre à jour les positions des blocs
