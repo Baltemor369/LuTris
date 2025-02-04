@@ -1,19 +1,19 @@
-LuTris
+# LuTris
 
 A Tetris version with Pygame.
 
 # STILL WORKING
 # COMING SOON
 
-# Installation
+## Installation
 
-# Features
+## Features
 
-# Technologies
+## Technologies
 
 - python : 3.12.3
 - pygame : 2.6.1
 
-# Contribution
+## Contribution
 
 @Baltemor369
