@@ -13,7 +13,6 @@ class Game:
         self.move_down = False
         self.last_drop_time = datetime.now()
         self.drop_interval = timedelta(seconds=1)
-        self.speed = 0
     
     def should_drop(self):
         current_time = datetime.now()
