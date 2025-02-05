@@ -105,8 +105,8 @@ class Game:
     
     def check_full_lines(self):
         coef = 1
-        for line in self.board.matrix:
-            if self.board.is_line_full(line[1:-1]):
-                self.fall_blocks()
+        for line in range(0,len(self.board.matrix)):
+            if self.board.is_line_full(self.board.matrix[line]):
+                self.fall_blocks(line)
                 self.player.score += 100 * coef
                 coef += 1
