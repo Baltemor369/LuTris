@@ -1,5 +1,5 @@
 class Block:
-    def __init__(self, x, y, c="black"):
+    def __init__(self, x:int, y:int, c:str="BLACK"):
         self.x = x
         self.y = y
         self.color = c

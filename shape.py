@@ -1,9 +1,16 @@
 from block import Block
 
 class Shape:
-    def __init__(self, blocks:list[Block]=[], center:int=None):
+    def __init__(self, blocks:list[Block]=[], center:int=None, c="WHITE"):
         self.blocks:list[Block] = blocks
-        self.center = center if center is not None and 0 <= center < len(blocks) else 0
+        self.color:str = c
+        self.center:Block|None = center if center is not None and 0 <= center < len(blocks) else 0
+        for b in self.blocks:
+            b.color = c
+
+    def copy(self):
+        new_blocks = [Block(b.x, b.y, b.color) for b in self.blocks]
+        return Shape(new_blocks, self.center, self.color)
             
     def __str__(self):
         return f"Shape({self.center})"

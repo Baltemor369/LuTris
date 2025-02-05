@@ -1,10 +1,13 @@
 from game import Game
-from shape import Shape
 from block import Block
 from const import *
 
 import pygame
+import pprint
 import random
+
+def get_random_shape():
+    return random.choice(shapes)
 
 def draw(screen:pygame.Surface, shape:Block):
     pygame.draw.rect(screen, shape.color, (shape.x*BLOCK_SIZE, shape.y*BLOCK_SIZE, BLOCK_SIZE-2, BLOCK_SIZE-2))
@@ -63,11 +66,10 @@ def update(game:Game):
         if game.is_empty_under():
             game.move_block_down()
         else:
-            print(game.board.moving_shape)
+            # check full line
+            game.check_full_lines()
             # generate a new Shape as current moving shape
-            game.board.set_moving_shape(Shape([Block(i,0, CYAN) for i in range(2,6)]))
-            print(game.board.moving_shape)
-        
+            game.board.set_moving_shape(get_random_shape().copy())
     
     return True
 
@@ -83,10 +85,7 @@ pygame.display.set_caption("LuTris")
 
 # init data
 game = Game()
-
-# TEST
-game.board.set_moving_shape(Shape([Block(i,-1, CYAN) for i in range(2,6)]))
-###########
+game.board.set_moving_shape(get_random_shape().copy())
 
 while game.running:
     screen.fill(BLACK)

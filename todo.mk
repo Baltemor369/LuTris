@@ -15,8 +15,8 @@
 [x] 12. verify down collision
 [x] 13. pressing down key, make fall faster the chaine
 [x] 14. automatic fall for chaine (1 tile per 1/2second then faster)
-[] 14.2 define all shape possible
-[] 14.3 make random selection of the spawning shape 
+[x] 14.2 define all shape possible
+[x] 14.3 make random selection of the spawning shape 
 [] 15. verify full line and destroy it
 [] 16. player get a score
 [] 17. 

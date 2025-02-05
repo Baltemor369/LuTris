@@ -1,6 +1,8 @@
 from shape import Shape
 from block import Block
 
+import random
+
 BLOCK_SIZE = 30
 NB_ROWS = 20
 NB_COLS = 10
@@ -10,50 +12,71 @@ SCREEN_WIDTH = BLOCK_SIZE * NB_COLS
 
 BLACK = (0,0,0)
 WHITE = (255,255,255)
+
 RED = (255,0,0)
 ORANGE = (255,165,0)
-PINK = (255,255,0)
+PURPLE = (128,0,128)
 BLUE = (0,0,255)
 CYAN = (0,255,255)
 GREEN = (0,255,0)
-YELLOW = (255,0,255)
-
+YELLOW = (255,255,0)
+PINK = (255,192,203)
+                         
 shapes = [
     # line 1x4
-    Shape([Block(i,0,BLUE) for i in range(2,6)],1),
+    Shape([Block(i,-1) for i in range(3,7)],1, CYAN),
     # cube 2x2
     Shape([
-        Block(2,0,CYAN),
-        Block(3,0,CYAN),
-        Block(2,-1,CYAN),
-        Block(3,-1,CYAN)
-    ],1),
+        Block(2,-1),
+        Block(3,-1),
+        Block(2,-2),
+        Block(3,-2)
+    ],1, YELLOW),
     # cube 3x3
     Shape([
-        Block(2,0,ORANGE),
-        Block(3,0,ORANGE),
-        Block(4,0,ORANGE),
-        Block(2,-1,ORANGE),
-        Block(3,-1,ORANGE),
-        Block(4,-1,ORANGE),
-        Block(2,-2,ORANGE),
-        Block(3,-2,ORANGE),
-        Block(4,-2,ORANGE)
-    ],4),
-    # rect 4x2
-    Shape([
-        Block(2,0,YELLOW),
-        Block(3,0,YELLOW),
-        Block(4,0,YELLOW),
-        Block(5,0,YELLOW),
-        Block(2,-1,YELLOW),
-        Block(3,-1,YELLOW),
-        Block(4,-1,YELLOW),
-        Block(5,-1,YELLOW)
-    ]),
+        Block(2,-3),
+        Block(3,-3),
+        Block(4,-3),
+        Block(2,-2),
+        Block(3,-2),
+        Block(4,-2),
+        Block(2,-1),
+        Block(3,-1),
+        Block(4,-1)
+    ],4, PINK),
     # L 3+2 left
+    Shape([
+        Block(4,-2),
+        Block(4,-1),
+        Block(5,-1),
+        Block(6,-1),
+    ],3, BLUE),
     # L 3+2 right
+    Shape([
+        Block(6,-2),
+        Block(6,-1),
+        Block(5,-1),
+        Block(4,-1),
+    ],3, ORANGE),
     # S 2+2 left
+    Shape([
+        Block(3,-2),
+        Block(4,-2),
+        Block(4,-1),
+        Block(5,-1),
+    ], 1, RED),
     # S 2+2 right
+    Shape([
+        Block(5,-2),
+        Block(4,-2),
+        Block(4,-1),
+        Block(3,-1),
+    ], 1, GREEN),
     # T 3+1
+    Shape([
+        Block(5,-2),
+        Block(4,-1),
+        Block(5,-1),
+        Block(6,-1),
+    ],0, PURPLE)
 ]

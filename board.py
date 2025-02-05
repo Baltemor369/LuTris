@@ -32,5 +32,8 @@ class Board:
         for block in shape.blocks:
             self.set(block.x, block.y, None)
     
-    def is_line_full(self, y:int):
-        return all(block is not None for block in self.matrix[y])
+    def is_line_full(self, line:list[Block]):
+        for b in line:
+            if b is None:
+                return False
+        return True
