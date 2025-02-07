@@ -20,63 +20,55 @@ BLUE = (0,0,255)
 CYAN = (0,255,255)
 GREEN = (0,255,0)
 YELLOW = (255,255,0)
-PINK = (255,192,203)
                          
 shapes = [
     # line 1x4
-    Shape([Block(i,-1) for i in range(3,7)],1, CYAN),
+    Shape([
+        Block(5,0),
+        Block(4,0),
+        Block(6,0),
+        Block(7,0)
+    ], CYAN),
     # cube 2x2
     Shape([
-        Block(2,-1),
+        Block(3,0),
         Block(3,-1),
-        Block(2,-2),
-        Block(3,-2)
-    ],1, YELLOW),
-    # cube 3x3
-    Shape([
-        Block(2,-3),
-        Block(3,-3),
-        Block(4,-3),
-        Block(2,-2),
-        Block(3,-2),
-        Block(4,-2),
-        Block(2,-1),
-        Block(3,-1),
+        Block(4,0),
         Block(4,-1)
-    ],4, PINK),
+    ], YELLOW, False),
     # L 3+2 left
     Shape([
-        Block(4,-2),
+        Block(4,0),
         Block(4,-1),
-        Block(5,-1),
-        Block(6,-1),
-    ],3, BLUE),
+        Block(5,0),
+        Block(6,0),
+    ], BLUE),
     # L 3+2 right
     Shape([
-        Block(6,-2),
+        Block(6,0),
         Block(6,-1),
-        Block(5,-1),
-        Block(4,-1),
-    ],3, ORANGE),
+        Block(5,0),
+        Block(4,0),
+    ], ORANGE),
     # S 2+2 left
     Shape([
-        Block(3,-2),
-        Block(4,-2),
-        Block(4,-1),
-        Block(5,-1),
-    ], 1, RED),
-    # S 2+2 right
-    Shape([
-        Block(5,-2),
-        Block(4,-2),
+        Block(4,0),
+        Block(5,0),
         Block(4,-1),
         Block(3,-1),
-    ], 1, GREEN),
-    # T 3+1
+    ], RED),
+    # S 2+2 right
     Shape([
-        Block(5,-2),
+        Block(4,0),
+        Block(3,0),
         Block(4,-1),
         Block(5,-1),
-        Block(6,-1),
-    ],0, PURPLE)
+    ], GREEN),
+    # T 3+1
+    Shape([
+        Block(5,0),
+        Block(4,0),
+        Block(5,-1),
+        Block(6,0),
+    ], PURPLE)
 ]

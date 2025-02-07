@@ -1,5 +1,6 @@
 from pygame import time
 from datetime import datetime, timedelta
+import pprint
 
 from player import Player
 from board import Board
@@ -25,23 +26,28 @@ class Game:
         return False
 
     def fall_blocks(self, index:int):
-        for y in range(index, 0, -1):
-            for x in range(0, NB_COLS):
-                self.board.set(x,y, None) # self.board.get(x,y-1)
+        for y in range(index, 0, - 1):
+            for x in range(1, NB_COLS + 1):
+                self.board.set(x, y, None)
+                block = self.board.get(x,y-1)
+                if  block is not None:
+                    self.board.set(x, y-1, None)
+                    block.move_down()
+                    self.board.set(x, y, block)
 
-    def move_block_left(self):
+    def move_shape_left(self):
         self.board.remove_shape(self.board.moving_shape)
         for block in self.board.moving_shape.blocks:
             block.move_left()
         self.board.add_shape(self.board.moving_shape)
     
-    def move_block_right(self):
+    def move_shape_right(self):
         self.board.remove_shape(self.board.moving_shape)
         for block in self.board.moving_shape.blocks:
             block.move_right()
         self.board.add_shape(self.board.moving_shape)
 
-    def move_block_down(self):        
+    def move_shape_down(self):        
         self.board.remove_shape(self.board.moving_shape)
         for block in self.board.moving_shape.blocks:
             block.move_down()
@@ -63,10 +69,10 @@ class Game:
         self.board.remove_shape(self.board.moving_shape)
 
         for block in self.board.moving_shape.blocks:
-            if block.x == 0: # left side touch
+            if block.x == 1: # left side touch
                 check = False
 
-            elif self.board.get(block.x-1, block.y) != None: # detect smth on left
+            elif self.board.get(block.x-1, block.y) is not None: # detect smth on left
                 check = False
 
         self.board.add_shape(self.board.moving_shape)
@@ -78,10 +84,10 @@ class Game:
         self.board.remove_shape(self.board.moving_shape)
 
         for block in self.board.moving_shape.blocks:
-            if block.x == 9: # right side touch
+            if block.x == NB_COLS: # right side touch
                 check = False
 
-            elif self.board.get(block.x+1, block.y) != None: # detect smth on rgiht
+            elif self.board.get(block.x + 1, block.y) is not None: # detect smth on rgiht
                 check = False
 
         self.board.add_shape(self.board.moving_shape)
@@ -93,10 +99,10 @@ class Game:
         self.board.remove_shape(self.board.moving_shape)
 
         for block in self.board.moving_shape.blocks:
-            if block.y == 19: # bottom side touch
+            if block.y == 20: # bottom side touch
                 check = False
 
-            if self.board.get(block.x, block.y+1) != None: # detect smth under
+            if self.board.get(block.x, block.y + 1) is not None: # detect smth under
                 check = False
 
         self.board.add_shape(self.board.moving_shape)
@@ -105,8 +111,8 @@ class Game:
     
     def check_full_lines(self):
         coef = 1
-        for line in range(0,len(self.board.matrix)):
-            if self.board.is_line_full(self.board.matrix[line]):
-                self.fall_blocks(line)
+        for y in range(1,NB_ROWS + 1):
+            if self.board.is_line_full(self.board.matrix[y][1:-2]):
+                self.fall_blocks(y)
                 self.player.score += 100 * coef
                 coef += 1

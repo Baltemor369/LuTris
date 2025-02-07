@@ -17,14 +17,16 @@
 [x] 14. automatic fall for chaine (1 tile per 1/2second then faster)
 [x] 14.2 define all shape possible
 [x] 14.3 make random selection of the spawning shape 
-[] 15. verify full line and destroy it
+[x] 15. verify if full line
+[x] 15.1 destroy full lines
+[] 15.2 fall down over lines
+[] 15.3 generate a random selection of the shapes then select in it a random shape for more random
 [] 16. player get a score
-[] 17. 
+[] 17. display player score
+[] 18. display next shape
+[] 19. speed up the speed of the falling shape
 
-# Error record 
-
-
-
+--------------------
 
 je voudrais un moyen qui me permette d'ajuster la vitesse à laquelle tombe les blocks. plus le temps passe plus il tombe vite, comment faire ?
 

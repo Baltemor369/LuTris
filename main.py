@@ -3,14 +3,13 @@ from block import Block
 from const import *
 
 import pygame
-import pprint
 import random
 
 def get_random_shape():
     return random.choice(shapes)
 
 def draw(screen:pygame.Surface, shape:Block):
-    pygame.draw.rect(screen, shape.color, (shape.x*BLOCK_SIZE, shape.y*BLOCK_SIZE, BLOCK_SIZE-2, BLOCK_SIZE-2))
+    pygame.draw.rect(screen, shape.color, (shape.x * BLOCK_SIZE - BLOCK_SIZE, shape.y * BLOCK_SIZE - BLOCK_SIZE, BLOCK_SIZE - 2, BLOCK_SIZE - 2))
 
 def event_handler(game:Game):
     for event in pygame.event.get():
@@ -52,30 +51,31 @@ def event_handler(game:Game):
 def update(game:Game):
     if game.move_left:
         if game.is_empty_left():
-            game.move_block_left()
+            game.move_shape_left()
 
     elif game.move_right:
         if game.is_empty_right():
-            game.move_block_right()
+            game.move_shape_right()
     
     if game.move_down:
         if game.is_empty_under():
-            game.move_block_down()
+            game.move_shape_down()
     
     if game.should_drop():
         if game.is_empty_under():
-            game.move_block_down()
+            game.move_shape_down()
         else:
-            # check full line
+            # new block generation
+            # 1. check full lines and destroy them
             game.check_full_lines()
-            # generate a new Shape as current moving shape
+            # 2. generate a new as current moving shape
             game.board.set_moving_shape(get_random_shape().copy())
     
     return True
 
 def refresh_graphic(game:Game):
-    for row in game.board.matrix:
-        for cell in row:
+    for row in game.board.matrix[1:-1]:
+        for cell in row[1:-1]:
             if type(cell) is Block:
                 draw(screen, cell)
 

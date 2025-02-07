@@ -1,26 +1,22 @@
 from block import Block
 
 class Shape:
-    def __init__(self, blocks:list[Block]=[], center:int=None, c="WHITE"):
+    def __init__(self, blocks:list[Block]=[], c="WHITE", allow_rotate=True):
         self.blocks:list[Block] = blocks
         self.color:str = c
-        self.center:Block|None = center if center is not None and 0 <= center < len(blocks) else 0
+        self.allow_rotate:bool = allow_rotate
         for b in self.blocks:
             b.color = c
 
     def copy(self):
         new_blocks = [Block(b.x, b.y, b.color) for b in self.blocks]
-        return Shape(new_blocks, self.center, self.color)
-            
-    def __str__(self):
-        return f"Shape({self.center})"
+        return Shape(new_blocks, self.color, self.allow_rotate)
 
     def rotate(self, board, clockwise=True):
-        if not self.blocks:
+        if self.allow_rotate is False or not self.blocks:
             return
         
-        # Prendre le point central pour la rotation
-        center = self.blocks[self.center]
+        center = self.blocks[0]
         new_positions = []
 
         for block in self.blocks:
@@ -34,7 +30,7 @@ class Shape:
         
         # Vérifier les nouvelles positions
         for x, y in new_positions:
-            if x < 0 or x >= 10 or y < 0 or y >= 20 or board.get(x,y) is not None:
+            if x < 1 or x >= 11 or y < 1 or y >= 21 or board.get(x,y) is not None:
                 return  # Annuler la rotation en cas de collision
             
         # Mettre à jour les positions des blocs

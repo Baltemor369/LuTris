@@ -12,7 +12,7 @@ class Board:
                 _.append(None)
             self.matrix.append(_)
         # current moving shape
-        self.moving_shape:Shape = None
+        self.moving_shape:Shape|None = None
     
     def get(self, x:int, y:int):
         return self.matrix[y][x]
