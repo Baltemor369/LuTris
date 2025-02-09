@@ -39,37 +39,37 @@ class Game:
                     self.board.set(x, y, block)
 
     def move_shape_left(self):
-        self.board.remove_shape(self.board.moving_shape)
+        self.board.remove_shape()
         for block in self.board.moving_shape.blocks:
             block.move_left()
-        self.board.add_shape(self.board.moving_shape)
+        self.board.add_shape()
     
     def move_shape_right(self):
-        self.board.remove_shape(self.board.moving_shape)
+        self.board.remove_shape()
         for block in self.board.moving_shape.blocks:
             block.move_right()
-        self.board.add_shape(self.board.moving_shape)
+        self.board.add_shape()
 
     def move_shape_down(self):        
-        self.board.remove_shape(self.board.moving_shape)
+        self.board.remove_shape()
         for block in self.board.moving_shape.blocks:
             block.move_down()
-        self.board.add_shape(self.board.moving_shape)
+        self.board.add_shape()
         
     def rotate_right(self): 
-        self.board.remove_shape(self.board.moving_shape)
+        self.board.remove_shape()
         self.board.moving_shape.rotate(self.board, clockwise=False)
-        self.board.add_shape(self.board.moving_shape)
+        self.board.add_shape()
     
     def rotate_left(self):
-        self.board.remove_shape(self.board.moving_shape)
+        self.board.remove_shape()
         self.board.moving_shape.rotate(self.board, clockwise=True)
-        self.board.add_shape(self.board.moving_shape)
+        self.board.add_shape()
 
 
     def is_empty_left(self):
         check = True
-        self.board.remove_shape(self.board.moving_shape)
+        self.board.remove_shape()
 
         for block in self.board.moving_shape.blocks:
             if block.x == 1: # left side touch
@@ -78,13 +78,13 @@ class Game:
             elif self.board.get(block.x-1, block.y) is not None: # detect smth on left
                 check = False
 
-        self.board.add_shape(self.board.moving_shape)
+        self.board.add_shape()
 
         return check
     
     def is_empty_right(self):
         check = True
-        self.board.remove_shape(self.board.moving_shape)
+        self.board.remove_shape()
 
         for block in self.board.moving_shape.blocks:
             if block.x == NB_COLS: # right side touch
@@ -93,13 +93,13 @@ class Game:
             elif self.board.get(block.x + 1, block.y) is not None: # detect smth on rgiht
                 check = False
 
-        self.board.add_shape(self.board.moving_shape)
+        self.board.add_shape()
 
         return check
     
     def is_empty_under(self):
         check = True
-        self.board.remove_shape(self.board.moving_shape)
+        self.board.remove_shape()
 
         for block in self.board.moving_shape.blocks:
             if block.y == 20: # bottom side touch
@@ -108,7 +108,7 @@ class Game:
             if self.board.get(block.x, block.y + 1) is not None: # detect smth under
                 check = False
 
-        self.board.add_shape(self.board.moving_shape)
+        self.board.add_shape()
         
         return check
     

@@ -22,18 +22,24 @@ class Board:
     
     def set_moving_shape(self, shape:Shape):
         self.moving_shape = shape
-        self.add_shape(shape)
+        self.add_shape()
         
-    def add_shape(self, shape:Shape):
-        for block in shape.blocks:
+    def add_shape(self):
+        for block in self.moving_shape.blocks:
             self.set(block.x, block.y, block)
     
-    def remove_shape(self, shape: Shape):
-        for block in shape.blocks:
+    def remove_shape(self):
+        for block in self.moving_shape.blocks:
             self.set(block.x, block.y, None)
     
     def is_line_full(self, line:list[Block]):
         for b in line:
             if b is None:
+                return False
+        return True
+    
+    def is_line_empty(self, line:list[Block]):
+        for b in line:
+            if b is not None:
                 return False
         return True

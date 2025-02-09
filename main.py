@@ -18,6 +18,15 @@ def draw_text(screen: pygame.Surface, text: str, font: pygame.font.Font, x: int,
 def draw_rect(screen: pygame.Surface, color, x: int, y: int, width: int, height: int):
     pygame.draw.rect(screen, color, (x, y, width, height))
 
+def draw_button(screen: pygame.Surface, color, x: int, y: int, width: int, height: int, text: str, font: pygame.font.Font):
+    pygame.draw.rect(screen, color, (x, y, width, height))
+    text_surface = font.render(text, True, BLACK)
+    screen.blit(text_surface, (x + 10, y + 10))
+
+def is_button_clicked(x: int, y: int, width: int, height: int, mouse_pos):
+    mouse_x, mouse_y = mouse_pos
+    return x <= mouse_x <= x + width and y <= mouse_y <= y + height
+
 def event_handler(game:Game):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -65,6 +74,13 @@ def event_handler(game:Game):
                 elif event.key == pygame.K_s:
                     game.move_down = False
 
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:  # Left mouse button
+                if is_button_clicked(*quit_button_rect, event.pos):
+                    game.running = False
+                    game.app_running = False
+                    
+
 def update(game:Game):
     if game.move_left:
         if game.is_empty_left():
@@ -83,29 +99,45 @@ def update(game:Game):
             game.move_shape_down()
         else:
             # new block generation
-            # 1. check full lines and destroy them
+            # 1. check full lines
             game.check_full_lines()
             # 2. generate a new as current moving shape
             game.board.set_moving_shape(get_random_shape().copy())
     
     # end game check
-    if game.board.is_line_full(game.board.matrix[1]):
+    game.board.remove_shape()
+    if not game.board.is_line_empty(game.board.matrix[1][1:-1]):
         # stop the game
         game.running = False
+
         # record the score
         if game.player.name in game.records:
             if game.player.score > game.records[game.player.name]:
                 game.save_record(game.player.name, game.player.score)
-            else:
-                game.save_record(game.player.name, game.player.score)
+        else:
+            game.save_record(game.player.name, game.player.score)
+        game.records = dict(sorted(game.records.items(), key=lambda item: item[1]))
+    game.board.add_shape()
 
 
 def refresh_graphic(game:Game, font: pygame.font.Font):
     # draw panel
     draw_rect(screen, (50, 50, 50), NB_COLS * BLOCK_SIZE, 0, PANEL_WIDTH, PANEL_HEIGHT)
+    
+    # buttons
+    draw_button(screen, (200, 0, 0), NB_COLS * BLOCK_SIZE + 10, 50, 80, 40, "Quitter", font)
+    
+    # stats
+    draw_text(screen, f'Score: {game.player.score}', font, NB_COLS * BLOCK_SIZE + 5, 10)
 
+    i = 0
+    for key, val in game.records.items():
+        draw_text(screen, f'{key}: {val}', font, NB_COLS * BLOCK_SIZE + 5, 100 + 15 * i)
+        i += 1
 
     # draw game board
+    draw_rect(screen, RED, 0,BLOCK_SIZE*1-1, GAME_WIDTH,1)
+
     for row in game.board.matrix[1:-1]:
         for cell in row[1:-1]:
             if type(cell) is Block:
@@ -114,8 +146,6 @@ def refresh_graphic(game:Game, font: pygame.font.Font):
     if not game.running:
         draw_text(screen, "Pause", font, GAME_WIDTH / 2 - 20 , GAME_HEIGHT / 2 - 20)
 
-    # display score
-    draw_text(screen, f'Score: {game.player.score}', font, NB_COLS * BLOCK_SIZE + 5, 10)
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -128,6 +158,8 @@ font = pygame.font.SysFont(None, 30)
 # init data
 game = Game()
 game.board.set_moving_shape(get_random_shape().copy())
+
+quit_button_rect = (NB_COLS * BLOCK_SIZE + 10, 50, 80, 40)
 
 while game.app_running:
     screen.fill(BLACK)
