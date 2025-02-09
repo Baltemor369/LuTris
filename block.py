@@ -5,7 +5,7 @@ class Block:
         self.color = c
     
     def __str__(self):
-        return f"{self.x},{self.y};{self.color}"
+        return f"{self.color}"
     
     def move_down(self):
         self.y += 1

@@ -1,6 +1,5 @@
 from pygame import time
 from datetime import datetime, timedelta
-import pprint
 
 from player import Player
 from board import Board
