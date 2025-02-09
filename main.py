@@ -28,6 +28,16 @@ def is_button_clicked(x: int, y: int, width: int, height: int, mouse_pos):
     mouse_x, mouse_y = mouse_pos
     return x <= mouse_x <= x + width and y <= mouse_y <= y + height
 
+def save_score(score: int):
+    with open(SCORE_FILE, 'w') as f:
+        f.write(str(score))
+
+def load_score() -> int:
+    if os.path.exists(SCORE_FILE):
+        with open(SCORE_FILE, 'r') as f:
+            return int(f.read())
+    return 0
+
 def event_handler(game:Game):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -158,6 +168,7 @@ font = pygame.font.SysFont(None, 30)
 
 # init data
 game = Game()
+game.player.score = load_score()
 game.board.set_moving_shape(get_random_shape().copy())
 
 quit_button_rect = (NB_COLS * BLOCK_SIZE + 10, 50, 80, 40)
@@ -173,4 +184,5 @@ while game.app_running:
     pygame.display.flip()
     game.clock.tick(10)
 
+save_score(game.player.score)
 pygame.quit()

@@ -1,7 +1,7 @@
 from shape import Shape
 from block import Block
 
-import random
+SCORE_FILE = "score.txt"
 
 BLOCK_SIZE = 30
 NB_ROWS = 20
