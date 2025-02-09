@@ -11,6 +11,10 @@ def get_random_shape():
 def draw(screen:pygame.Surface, shape:Block):
     pygame.draw.rect(screen, shape.color, (shape.x * BLOCK_SIZE - BLOCK_SIZE, shape.y * BLOCK_SIZE - BLOCK_SIZE, BLOCK_SIZE - 2, BLOCK_SIZE - 2))
 
+def draw_text(screen: pygame.Surface, text: str, font: pygame.font.Font, x: int, y: int):
+    text_surface = font.render(text, True, WHITE)
+    screen.blit(text_surface, (x, y))
+
 def event_handler(game:Game):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -73,15 +77,22 @@ def update(game:Game):
     
     return True
 
-def refresh_graphic(game:Game):
+def refresh_graphic(game:Game, font: pygame.font.Font):
     for row in game.board.matrix[1:-1]:
         for cell in row[1:-1]:
             if type(cell) is Block:
                 draw(screen, cell)
+    
+    # Afficher le score
+    draw_text(screen, f'Score: {game.player.score}', font, 10, 10)
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("LuTris")
+
+# Initialisez le module font
+pygame.font.init()
+font = pygame.font.SysFont(None, 36)
 
 # init data
 game = Game()
@@ -92,7 +103,7 @@ while game.running:
 
     game.running = event_handler(game)
     game.running = game.running and update(game)
-    refresh_graphic(game)
+    refresh_graphic(game, font)
 
     pygame.display.flip()
     game.clock.tick(10)
