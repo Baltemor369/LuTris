@@ -9,6 +9,8 @@ from const import *
 class Game:
     def __init__(self):
         self.running  = True
+        self.app_running = True
+        self.paused = False
         self.clock = time.Clock()
         self.board = Board()
         self.player = Player("Lucifer")
@@ -17,6 +19,7 @@ class Game:
         self.move_down = False
         self.last_drop_time = datetime.now()
         self.drop_interval = timedelta(seconds=1)
+        self.records = {}
     
     def should_drop(self):
         current_time = datetime.now()
@@ -116,3 +119,6 @@ class Game:
                 self.fall_blocks(y)
                 self.player.score += 100 * coef
                 coef += 1
+    
+    def save_record(self, key:str, val:str):
+        self.records[key] = val
