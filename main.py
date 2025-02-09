@@ -5,6 +5,7 @@ from const import *
 import pygame
 import random
 import os
+import json
 
 def get_random_shape():
     _ = [random.choice(shapes) for i in range(10)]
@@ -29,15 +30,15 @@ def is_button_clicked(x: int, y: int, width: int, height: int, mouse_pos):
     mouse_x, mouse_y = mouse_pos
     return x <= mouse_x <= x + width and y <= mouse_y <= y + height
 
-def save_score(score: int):
+def save_scores(scores: dict):
     with open(SCORE_FILE, 'w') as f:
-        f.write(str(score))
+        json.dump(scores, f)
 
-def load_score() -> int:
+def load_scores() -> dict:
     if os.path.exists(SCORE_FILE):
         with open(SCORE_FILE, 'r') as f:
-            return int(f.read())
-    return 0
+            return json.load(f)
+    return {}
 
 def event_handler(game:Game):
     for event in pygame.event.get():
@@ -169,7 +170,7 @@ font = pygame.font.SysFont(None, 30)
 
 # init data
 game = Game()
-game.player.score = load_score()
+game.records = load_scores()
 game.board.set_moving_shape(get_random_shape().copy())
 
 quit_button_rect = (NB_COLS * BLOCK_SIZE + 10, 50, 80, 40)
@@ -185,5 +186,5 @@ while game.app_running:
     pygame.display.flip()
     game.clock.tick(10)
 
-save_score(game.player.score)
+save_scores(game.records)
 pygame.quit()
