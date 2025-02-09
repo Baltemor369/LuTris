@@ -4,6 +4,7 @@ from const import *
 
 import pygame
 import random
+import os
 
 def get_random_shape():
     _ = [random.choice(shapes) for i in range(10)]
