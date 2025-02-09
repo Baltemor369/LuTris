@@ -6,7 +6,8 @@ import pygame
 import random
 
 def get_random_shape():
-    return random.choice(shapes)
+    _ = [random.choice(shapes) for i in range(10)]
+    return random.choice(_)
 
 def draw(screen:pygame.Surface, shape:Block):
     pygame.draw.rect(screen, shape.color, (shape.x * BLOCK_SIZE - BLOCK_SIZE, shape.y * BLOCK_SIZE - BLOCK_SIZE, BLOCK_SIZE - 2, BLOCK_SIZE - 2))
