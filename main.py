@@ -3,6 +3,7 @@ from block import Block
 from const import *
 
 import pygame
+import datetime
 import random
 import os
 import json
@@ -39,6 +40,11 @@ def load_scores() -> dict:
         with open(SCORE_FILE, 'r') as f:
             return json.load(f)
     return {}
+
+def input_box(screen, font, x, y, width, height, text):
+    pygame.draw.rect(screen, (200, 200, 200), (x, y, width, height))
+    txt_surface = font.render(text, True, (0, 0, 0))
+    screen.blit(txt_surface, (x + 5, y + 5))
 
 def event_handler(game:Game):
     for event in pygame.event.get():
@@ -117,6 +123,8 @@ def update(game:Game):
             # 2. generate a new as current moving shape
             game.board.set_moving_shape(get_random_shape().copy())
     
+            game.drop_interval -= datetime.timedelta(milliseconds=10)
+    
     # end game check
     game.board.remove_shape()
     if not game.board.is_line_empty(game.board.matrix[1][1:-1]):
@@ -138,7 +146,7 @@ def refresh_graphic(game:Game, font: pygame.font.Font):
     draw_rect(screen, (50, 50, 50), NB_COLS * BLOCK_SIZE, 0, PANEL_WIDTH, PANEL_HEIGHT)
     
     # buttons
-    draw_button(screen, (200, 0, 0), NB_COLS * BLOCK_SIZE + 10, 50, 80, 40, "Quitter", font)
+    draw_button(screen, (200, 0, 0), NB_COLS * BLOCK_SIZE + 10, 50, 90, 40, "Quitter", font)
     
     # stats
     draw_text(screen, f'Score: {game.player.score}', font, NB_COLS * BLOCK_SIZE + 5, 10)

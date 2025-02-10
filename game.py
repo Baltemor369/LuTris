@@ -17,7 +17,7 @@ class Game:
         self.move_right = False
         self.move_down = False
         self.last_drop_time = datetime.now()
-        self.drop_interval = timedelta(seconds=1)
+        self.drop_interval = timedelta(milliseconds=1000)
         self.records = {}
     
     def should_drop(self):

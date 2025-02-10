@@ -1,7 +1,7 @@
 from shape import Shape
 from block import Block
 
-SCORE_FILE = "score.txt"
+SCORE_FILE = "score.json"
 
 BLOCK_SIZE = 30
 NB_ROWS = 20
