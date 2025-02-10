@@ -7,6 +7,7 @@ import datetime
 import random
 import os
 import json
+from cryptography.fernet import Fernet
 
 def get_random_shape():
     _ = [random.choice(shapes) for i in range(10)]
@@ -33,14 +34,42 @@ def is_button_clicked(x: int, y: int, width: int, height: int, mouse_pos):
     mouse_x, mouse_y = mouse_pos
     return x <= mouse_x <= x + width and y <= mouse_y <= y + height
 
-def save_scores(scores: dict):
-    with open(SCORE_FILE, 'w') as f:
-        json.dump(scores, f)
+# Générer ou charger la clé de chiffrement
+def load_or_generate_key():
+    key_file = "key.key"
+    if os.path.exists(key_file):
+        with open(key_file, 'rb') as f:
+            key = f.read()
+    else:
+        key = Fernet.generate_key()
+        with open(key_file, 'wb') as f:
+            f.write(key)
+    return key
 
-def load_scores() -> dict:
+# Chiffrer le contenu
+def encrypt_data(data: bytes, key: bytes) -> bytes:
+    fernet = Fernet(key)
+    return fernet.encrypt(data)
+
+# Déchiffrer le contenu
+def decrypt_data(data: bytes, key: bytes) -> bytes:
+    fernet = Fernet(key)
+    return fernet.decrypt(data)
+
+# Sauvegarder les scores chiffrés
+def save_scores(scores: dict, key: bytes):
+    data = json.dumps(scores).encode('utf-8')
+    encrypted_data = encrypt_data(data, key)
+    with open(SCORE_FILE, 'wb') as f:
+        f.write(encrypted_data)
+
+# Charger les scores déchiffrés
+def load_scores(key: bytes) -> dict:
     if os.path.exists(SCORE_FILE):
-        with open(SCORE_FILE, 'r') as f:
-            return json.load(f)
+        with open(SCORE_FILE, 'rb') as f:
+            encrypted_data = f.read()
+        data = decrypt_data(encrypted_data, key)
+        return json.loads(data.decode('utf-8'))
     return {}
 
 def input_box(screen, font, x, y, width, height, text):
@@ -79,7 +108,7 @@ def event_handler(game:Game):
                     game.rotate_left()
             if game.input_active:
                 if event.key == pygame.K_RETURN:
-                    game.player.name = game.tmp
+                    game.player.name = game.tmp.capitalize()
                     game.input_active = False
 
                 elif event.key == pygame.K_BACKSPACE:
@@ -207,7 +236,8 @@ font = pygame.font.SysFont(None, 36)
 
 # init data
 game = Game()
-game.records = load_scores()
+key = load_or_generate_key()
+game.records = load_scores(key)
 game.board.set_moving_shape(get_random_shape().copy())
 
 while game.app_running:
@@ -220,5 +250,5 @@ while game.app_running:
     pygame.display.flip()
     game.clock.tick(10)
 
-save_scores(game.records)
+save_scores(game.records, key)
 pygame.quit()
