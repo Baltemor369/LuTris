@@ -25,4 +25,4 @@
 [x] 17. display player score
 [] 18. display next shape
 [x] 19. speed up the speed of the falling shape
-
+[x] 20. encrypt the data save.

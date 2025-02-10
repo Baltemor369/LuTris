@@ -172,7 +172,7 @@ def update(game:Game):
                 # 2. generate a new as current moving shape
                 game.board.set_moving_shape(get_random_shape().copy())
         
-                game.drop_interval -= datetime.timedelta(milliseconds=10)
+                game.drop_interval -= datetime.timedelta(milliseconds=(game.player.score // 1000)*100)
         
         # end game check
         game.board.remove_shape()
