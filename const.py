@@ -27,6 +27,11 @@ BLUE = (0,0,255)
 CYAN = (0,255,255)
 GREEN = (0,255,0)
 YELLOW = (255,255,0)
+
+#                           (x,y,w,h)
+start_button_rect = (GAME_WIDTH + 10, 10, 80, 40)
+rename_button_rect = (GAME_WIDTH + 10, 60, 120, 40)
+quit_button_rect = (GAME_WIDTH + 10, SCREEN_HEIGHT - 50, 100, 40)
                          
 shapes = [
     # line 1x4

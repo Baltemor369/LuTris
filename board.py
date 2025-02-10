@@ -14,6 +14,11 @@ class Board:
         # current moving shape
         self.moving_shape:Shape|None = None
     
+    def clear(self):
+        for x in range(len(self.matrix)):
+            for y in range(len(self.matrix[y])):
+                self.matrix[x][y] = None
+
     def get(self, x:int, y:int):
         return self.matrix[y][x]
     

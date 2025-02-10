@@ -24,4 +24,5 @@
 [x] 16. player get a score
 [x] 17. display player score
 [] 18. display next shape
-[] 19. speed up the speed of the falling shape
+[x] 19. speed up the speed of the falling shape
+

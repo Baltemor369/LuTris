@@ -7,19 +7,30 @@ from const import *
 
 class Game:
     def __init__(self):
-        self.running  = True
         self.app_running = True
-        self.paused = False
+        self.game_running = False
+        self.game_end  = False 
+        self.input_active = False
         self.clock = time.Clock()
         self.board = Board()
-        self.player = Player("Lucifer")
+        self.player = Player("")
         self.move_left = False
         self.move_right = False
         self.move_down = False
         self.last_drop_time = datetime.now()
         self.drop_interval = timedelta(milliseconds=1000)
         self.records = {}
+        self.tmp = ""
     
+    def restart(self):
+        self.game_running = True
+        self.game_end = False
+        self.board.clear()
+        self.move_left = False
+        self.move_right = False
+        self.move_down = False
+        self.last_drop_time = datetime.now()
+
     def should_drop(self):
         current_time = datetime.now()
         if current_time - self.last_drop_time > self.drop_interval:
