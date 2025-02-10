@@ -43,10 +43,10 @@ shapes = [
     ], CYAN),
     # cube 2x2
     Shape([
-        Block(3,0),
-        Block(3,-1),
         Block(4,0),
-        Block(4,-1)
+        Block(4,-1),
+        Block(5,0),
+        Block(5,-1)
     ], YELLOW, False),
     # L 3+2 left
     Shape([
@@ -64,17 +64,17 @@ shapes = [
     ], ORANGE),
     # S 2+2 left
     Shape([
-        Block(4,0),
         Block(5,0),
+        Block(6,0),
+        Block(5,-1),
         Block(4,-1),
-        Block(3,-1),
     ], RED),
     # S 2+2 right
     Shape([
+        Block(5,0),
         Block(4,0),
-        Block(3,0),
-        Block(4,-1),
         Block(5,-1),
+        Block(6,-1),
     ], GREEN),
     # T 3+1
     Shape([
