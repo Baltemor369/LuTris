@@ -12,4 +12,4 @@ IF NOT EXIST .env (
     call activate
     cd ../..
 )
-python.exe main.py
+python.exe app/main.py
